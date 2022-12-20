@@ -2,14 +2,9 @@ import 'dart:io';
 
 import 'package:engage/controller/post_controller.dart';
 import 'package:engage/view/utils/routes.dart';
-import 'package:engage/view/widgets/GlobalWidgets/profileListType.dart';
-import 'package:engage/view/widgets/engageProfile/profileEdit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../GlobalWidgets/textInput.dart';
 
 class ProfileView extends StatefulWidget {
   final String name;
@@ -50,7 +45,7 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       if (pickedFile != null) {
         uploadPostController.photo = File(pickedFile.path);
-        uploadPostController.uploadFile();
+        // uploadPostController.uploadFile();
       } else {
         print('No image selected.');
       }
@@ -123,13 +118,13 @@ class _ProfileViewState extends State<ProfileView> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 60,
                         child: CircleAvatar(
-                          radius: 55,
+                          radius: 58,
                           backgroundColor: Colors.white,
-                          backgroundImage: AssetImage('assets/images/user.png'),
+                          backgroundImage: NetworkImage(widget.profile),
                         ),
                       ),
                       const SizedBox(
@@ -139,7 +134,7 @@ class _ProfileViewState extends State<ProfileView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Ashwin Sevak', style: Get.theme.textTheme.subtitle1),
+                          Text(widget.name, style: Get.theme.textTheme.subtitle1),
                           const SizedBox(height: 3),
                           Text('Head of Mobile & Products', style: Get.theme.textTheme.bodyText1),
                           const SizedBox(height: 5),
@@ -189,7 +184,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      'Mobile No :' + widget.mobileNo,
+                      'Mobile No : ${widget.mobileNo}',
                       style: Get.theme.textTheme.bodyText2,
                     ),
                   ],

@@ -5,6 +5,7 @@ import 'package:engage/view/screens/auth/engageRegister.dart';
 import 'package:engage/view/screens/engageHome.dart';
 import 'package:engage/view/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,8 +40,21 @@ class AuthController extends GetxController {
       if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty) {
         UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
+        final avatarImg = 'https://firebasestorage.googleapis.com/v0/b/engage-29a68.appspot.com/o/Assets%2FImages%2Fuser.png?alt=media&token=798133d5-f41d-4ee8-8c16-06573a9e9a4d';
+
         myUser engageUser = myUser(
-            name: username, email: email, uid: credential.user!.uid, password: password, confirmPassword: confirmPassword, bio: '', department: '', designation: '', dob: '', mobileNo: 0, posts: []);
+            name: username,
+            email: email,
+            uid: credential.user!.uid,
+            password: password,
+            confirmPassword: confirmPassword,
+            bio: '',
+            department: '',
+            designation: '',
+            dob: '',
+            mobileNo: 0,
+            posts: [],
+            avatar: avatarImg);
 
         await FirebaseFirestore.instance.collection("engageUsers").doc(credential.user!.uid).set(engageUser.toJson());
         Get.snackbar("Registered Successfully", "You have been registered successfully", snackPosition: SnackPosition.TOP, backgroundColor: Color(0xffffffff));

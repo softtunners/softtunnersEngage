@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage/modal/postModal.dart';
 import 'package:engage/modal/profileModal.dart';
+import 'package:engage/view/screens/engageUserProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
@@ -13,29 +14,23 @@ import 'package:uuid/uuid.dart';
 class ProfileUpdateController extends GetxController {
   static ProfileUpdateController instance = Get.find();
 
+    var uuid = Uuid();
+
   FirebaseStorage storage = FirebaseStorage.instance;
 
   File? photo;
   final ImagePicker picker = ImagePicker();
 
-  Future uploadAvatar() async {
-    if (photo != null) return;
-    // final filename = photo!.path;
-    // final destination = 'files/$filename';
-
-    try {
-      Reference ref = FirebaseStorage.instance.ref().child('profileAvatars');
-      await ref.putFile(photo!);
-    } catch (e) {
-      print('error occured');
-    }
-  }
-
   updateProfile(String designation, String bio, String dob, int mobileNo, String department, File postAvatar) async {
     try {
       String uid = FirebaseAuth.instance.currentUser!.uid;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection("engageUsers").doc(uid).get();
-      File? engageImage = await uploadAvatar();
+
+      Reference ref = FirebaseStorage.instance.ref('avatars').child(postAvatar.toString());
+      UploadTask uploadTask = ref.putFile(photo!);
+      TaskSnapshot snapshot = await uploadTask;
+      String avatarUrl = await snapshot.ref.getDownloadURL();
+      
 
       var engageUsers = UserProfileMoal(
         designation: designation,
@@ -44,7 +39,7 @@ class ProfileUpdateController extends GetxController {
         dob: dob,
         department: department,
         posts: [],
-        avatarpath: engageImage.toString(),
+        avatarpath: avatarUrl,
       );
 
       await FirebaseFirestore.instance.collection("engageUsers").doc(uid).update(engageUsers.toJson());
@@ -53,4 +48,13 @@ class ProfileUpdateController extends GetxController {
       Get.snackbar("Error ", e.toString());
     }
   }
+
+    uploadPostId(){
+    try{
+      String id = uuid.v1();
+      final postCollection = FirebaseFirestore.instance.collection('engagePost').doc(id).get();
+    }catch(e){}
+  }
+
+
 }

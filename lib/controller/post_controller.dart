@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage/modal/postModal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,25 +21,36 @@ class UploadPostController extends GetxController {
 
   final ImagePicker picker = ImagePicker();
 
-  Future uploadFile() async {
-    if (photo != null) return;
-    final filename = photo!.path;
-    final destination = 'engagePost/$filename';
-
-    try {
-      Reference ref = FirebaseStorage.instance.ref('file').child(destination);
-      await ref.putFile(photo!);
-    } catch (e) {
-      print('error occured');
-    }
-  }
+  // Future uploadFile() async {
+  //   // if (photo != null) return;
+  //   final filename = photo;
+  //   final destination = 'engagePost/$filename';
+  //   try {
+  //     Reference ref = FirebaseStorage.instance.ref('file').child(destination);
+  //     UploadTask uploadTask = ref.putFile(photo!);
+  //     TaskSnapshot snapshot = await uploadTask;
+  //     String imageUrl = await snapshot.ref.getDownloadURL();
+  //     return imageUrl;
+  //   } catch (e) {
+  //     print('error occured');
+  //   }
+  // }
 
   uploadPost(String description, File postImage, String postTitle) async {
     try {
+      final filename = photo;
+      final destination = 'engagePost/$filename';
+
       String uid = FirebaseAuth.instance.currentUser!.uid;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection("engageUsers").doc(uid).get();
       String id = uuid.v1();
-      File? engageImage = await uploadFile();
+      // await uploadFile();
+
+      Reference ref = FirebaseStorage.instance.ref('file').child(destination);
+      UploadTask uploadTask = ref.putFile(photo!);
+      TaskSnapshot snapshot = await uploadTask;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      // return imageUrl;
 
       var engagePost = EngagePostModal(
         name: (userDoc.data()! as Map<String, dynamic>)['name'],
@@ -47,11 +59,13 @@ class UploadPostController extends GetxController {
         likes: [],
         commentsCount: 0,
         description: description,
-        post: engageImage.toString(),
+        post: imageUrl,
         designation: "Head of Mobile & Products",
-        profilePic: "assets/images/post2.jpg",
+        profilePic: (userDoc.data()! as Map<String, dynamic>)['avatar'],
         postTitle: postTitle,
+        timestamp: FieldValue.serverTimestamp(),
       );
+
       await FirebaseFirestore.instance.collection("engagePost").doc(id).set(engagePost.toJson());
       Get.snackbar("Post Uploaded Successfully", "Your Post has been lined up into the home page");
     } catch (e) {
@@ -59,17 +73,6 @@ class UploadPostController extends GetxController {
     }
   }
 
-  // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Future<List<EngagePostModal>> retriveEngagePost() async {
-  //   QuerySnapshot<Map<String, dynamic>> snapshot = await _db.collection('engagePost').get();
-  //   return snapshot.docs.map((docsSnapshot) => EngagePostModal.fromSnap(docsSnapshot)).toList();
-  // }
 
-  // getPost() async {
-  //   String id = uuid.v1();
-  //   // String uid = FirebaseAuth.instance.currentUser!.uid;
-  //   DocumentSnapshot getDatasnap = await FirebaseFirestore.instance.collection("engagePost").doc(id).snapshots();
-  //   print(getDatasnap.data());
-  // }
 }

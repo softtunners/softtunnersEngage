@@ -7,7 +7,7 @@ class EngageTextInput extends StatelessWidget {
   final String myLabelText;
   final bool toHide;
 
-  const EngageTextInput({Key? key, required this.controller, required this.myIcon, required this.myLabelText, this.toHide = false});
+  EngageTextInput({Key? key, required this.controller, required this.myIcon, required this.myLabelText, this.toHide = false});
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -22,10 +22,10 @@ class EngageTextInput extends StatelessWidget {
         errorBorder: Get.theme.inputDecorationTheme.focusedBorder,
         focusedErrorBorder: Get.theme.inputDecorationTheme.focusedErrorBorder,
         filled: true,
-        fillColor: Get.theme.colorScheme.onBackground,
+        fillColor: Colors.white,
         contentPadding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
       ),
-      style: Get.theme.textTheme.bodyText1,
+      style: Get.theme.textTheme.subtitle2,
     );
   }
 }

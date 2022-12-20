@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:engage/controller/auth_controller.dart';
 import 'package:engage/controller/postlist_controller.dart';
+import 'package:engage/view/screens/engagePostView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 
 class EngagePostOne extends StatefulWidget {
@@ -13,6 +16,7 @@ class EngagePostOne extends StatefulWidget {
   final String designation;
   final String description;
   final String timestamp;
+  final void Function()? onPressed;
   final likes;
 
   final int comment;
@@ -27,6 +31,7 @@ class EngagePostOne extends StatefulWidget {
     required this.timestamp,
     required this.likes,
     required this.comment,
+    required this.onPressed,
   });
 
   @override
@@ -42,42 +47,31 @@ class _EngagePostOneState extends State<EngagePostOne> {
   bool flag = true;
 
   @override
-  void initState() {
-    super.initState();
-
-    if (widget.description.length > 100) {
-      firstHalf = widget.description.substring(0, 100);
-      secondHalf = widget.description.substring(100, widget.description.length);
-    } else {
-      firstHalf = widget.description;
-      secondHalf = "";
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // final fireLiked = FirebaseFirestore.instance.collection("engagePost").snapshots();
-
     Future<bool> onLikeButtonTapped(bool isLiked) async {
       return !isLiked;
     }
 
     return Container(
+      margin: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(color: Colors.white),
-      margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const EngageFullPostView(), transition: Transition.rightToLeft, duration: const Duration(milliseconds: 1000));
+            },
             child: Container(
               padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 20, 10),
-              decoration: const BoxDecoration(border: Border(top: BorderSide(color: Color.fromARGB(255, 243, 243, 243), width: 1, style: BorderStyle.solid, strokeAlign: StrokeAlign.inside))),
+              decoration: BoxDecoration(border: Border.all(color: const Color.fromARGB(255, 243, 243, 243), width: 1, style: BorderStyle.solid, strokeAlign: StrokeAlign.inside)),
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(widget.profile),
+                    backgroundImage: NetworkImage(widget.profile),
                     radius: 20,
                   ),
                   const SizedBox(
@@ -88,21 +82,27 @@ class _EngagePostOneState extends State<EngagePostOne> {
                     children: [
                       Text(
                         widget.name,
-                        style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 66, 66, 66), fontWeight: FontWeight.w400),
+                        style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.subtitle2),
                       ),
                       const SizedBox(
                         height: 3,
                       ),
                       Row(
                         children: [
-                          Text(widget.designation),
+                          Text(
+                            widget.designation,
+                            style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.bodyText2),
+                          ),
                           Container(
                             margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             width: 5,
                             height: 5,
-                            decoration: BoxDecoration(color: Color.fromARGB(255, 175, 175, 175), borderRadius: BorderRadius.circular(5)),
+                            decoration: BoxDecoration(color: const Color.fromARGB(255, 175, 175, 175), borderRadius: BorderRadius.circular(5)),
                           ),
-                          Text(widget.timestamp),
+                          Text(
+                            widget.timestamp,
+                            style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.bodyText2),
+                          ),
                         ],
                       )
                     ],
@@ -114,55 +114,11 @@ class _EngagePostOneState extends State<EngagePostOne> {
           Container(
             alignment: Alignment.topLeft,
             width: MediaQuery.of(context).size.width,
-            // padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(border: Border(top: BorderSide(color: Color.fromARGB(255, 243, 243, 243), width: 1, style: BorderStyle.solid, strokeAlign: StrokeAlign.inside))),
-            child: secondHalf.isEmpty
-                ? Text(firstHalf)
-                : Column(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(10),
-                        child: flag
-                            ? Stack(
-                                children: [
-                                  Text(
-                                    firstHalf + "...",
-                                    style: const TextStyle(fontSize: 13),
-                                  ),
-                                  Positioned(
-                                      right: 0,
-                                      bottom: 0,
-                                      child: InkWell(
-                                        child: Text(
-                                          flag ? "show more" : "show less",
-                                        ),
-                                        onTap: () => setState(() {
-                                          flag = !flag;
-                                        }),
-                                      )),
-                                ],
-                              )
-                            : Stack(
-                                children: [
-                                  Text(
-                                    firstHalf + secondHalf,
-                                    style: const TextStyle(fontSize: 13),
-                                  ),
-                                  Positioned(
-                                      right: 0,
-                                      bottom: 0,
-                                      child: InkWell(
-                                        child: Text(flag ? "show more" : "show less"),
-                                        onTap: () => setState(() {
-                                          flag = !flag;
-                                        }),
-                                      )),
-                                ],
-                              ),
-                      ),
-                    ],
-                  ),
+            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 20, 10),
+            child: Text(
+              widget.description,
+              style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.subtitle2),
+            ),
           ),
           GestureDetector(
             child: Container(
@@ -171,51 +127,40 @@ class _EngagePostOneState extends State<EngagePostOne> {
           ),
           Container(
             padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 20, 10),
-            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color.fromARGB(255, 243, 243, 243), width: 1, style: BorderStyle.solid, strokeAlign: StrokeAlign.inside))),
             child: Row(
               children: [
                 Row(
                   children: [
-                    LikeButton(
-                      size: 24,
-                      circleColor: const CircleColor(start: Color.fromARGB(255, 255, 0, 34), end: Color.fromARGB(255, 204, 24, 0)),
-                      bubblesColor: const BubblesColor(
-                        dotPrimaryColor: Color.fromARGB(255, 230, 65, 15),
-                        dotSecondaryColor: Color.fromARGB(255, 204, 0, 0),
-                      ),
-                      likeBuilder: (bool isLiked) {
-                        return isLiked
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 24,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
-                                color: Colors.grey,
-                                size: 24,
-                              );
-                      },
-                      likeCount: widget.likes,
-                      onTap: onLikeButtonTapped,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(30, 14),
-                        alignment: Alignment.centerLeft,
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        "Likes",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: "Outfit",
-                        ),
+                    GestureDetector(
+                      onTap: widget.onPressed,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/heart.gif',
+                            width: 25,
+                            height: 25,
+                          ),
+                          // const Icon(Icons.favorite, size: 20, color: Colors.redAccent),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${widget.likes}  Likes',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontFamily: "Outfit",
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Row(
                   children: [
@@ -228,7 +173,7 @@ class _EngagePostOneState extends State<EngagePostOne> {
                         Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text(
-                            widget.comment.toString(),
+                            '${widget.comment}  Comments',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
@@ -236,14 +181,6 @@ class _EngagePostOneState extends State<EngagePostOne> {
                             ),
                           ),
                         ),
-                        Text(
-                          "Comment",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                            fontFamily: "Outfit",
-                          ),
-                        )
                       ],
                     )),
                   ],

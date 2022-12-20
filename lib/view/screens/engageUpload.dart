@@ -1,4 +1,5 @@
 import 'package:engage/view/widgets/engageUpload/UploadPost.dart';
+import 'package:engage/view/widgets/engageUpload/UploadUI.dart';
 import 'package:flutter/material.dart';
 
 class EngageUpload extends StatelessWidget {
@@ -7,7 +8,7 @@ class EngageUpload extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: EngageUploadPost(),
+      child: EngageUploadPostSec(),
     );
   }
 }

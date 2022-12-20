@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 final ThemeData engageTheme = _engageTheme();
 
@@ -17,6 +17,7 @@ ThemeData _engageTheme() {
 // Color Scheme
 ColorScheme _engageThemeColorScheme(ColorScheme base) => base.copyWith(
     primary: const Color(0xff0B4E82),
+    // primary: Colors.white,
     onPrimary: const Color(0xffffffff),
     secondary: const Color(0xffFFBD3B),
     onSecondary: const Color(0xff000000),
@@ -29,45 +30,38 @@ ColorScheme _engageThemeColorScheme(ColorScheme base) => base.copyWith(
 // Text Theme
 TextTheme _engageThemeTextTheme(TextTheme base) => base.copyWith(
       headline1: base.headline1!.copyWith(
-        fontFamily: 'Outfit',
         fontSize: 30,
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
       headline2: base.headline2!.copyWith(
-        fontFamily: 'Outfit',
         fontSize: 26,
         fontWeight: FontWeight.w400,
         color: Colors.black,
       ),
       headline3: base.headline3!.copyWith(
-        fontFamily: 'Outfit',
         fontSize: 22,
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
       ),
       subtitle1: base.subtitle1!.copyWith(
-        fontFamily: 'Outfit',
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
       subtitle2: base.subtitle2!.copyWith(
-        fontFamily: 'Outfit',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w400,
-        color: Colors.black,
+        color: Colors.black87,
       ),
       bodyText1: base.bodyText1!.copyWith(
-        fontFamily: 'Outfit',
-        fontSize: 15,
-        fontWeight: FontWeight.w400,
-        color: const Color(0xff57636C),
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: Colors.black87,
       ),
       bodyText2: base.bodyText2!.copyWith(
-        fontFamily: 'Outfit',
         fontSize: 12,
-        color: Colors.grey,
+        color: const Color(0xff57636C),
       ),
     );
 

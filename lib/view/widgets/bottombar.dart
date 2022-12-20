@@ -9,10 +9,10 @@ var bottomItems = const [
       label: "Home"),
   BottomNavigationBarItem(
       icon: Icon(
-        Icons.search,
+        Icons.group,
         size: 25,
       ),
-      label: "Search"),
+      label: "Idealakers"),
   BottomNavigationBarItem(icon: Icon(Icons.photo_rounded), label: "Add Post"),
   BottomNavigationBarItem(
       icon: Icon(

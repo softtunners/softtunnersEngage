@@ -50,7 +50,6 @@ class UserProfileState extends State<UserProfile> {
     setState(() {
       if (pickedFile != null) {
         uploadPostController.photo = File(pickedFile.path);
-        uploadPostController.uploadFile();
       } else {
         print('No image selected.');
       }

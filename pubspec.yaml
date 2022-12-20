@@ -46,6 +46,9 @@ dependencies:
   lottie: ^2.0.0
   dependencies:
   uuid: ^3.0.6
+  comment_tree: ^0.3.0
+  google_fonts: ^3.0.1
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:

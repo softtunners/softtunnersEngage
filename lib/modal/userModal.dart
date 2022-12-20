@@ -6,7 +6,7 @@ class myUser {
   String uid;
   String password;
   String confirmPassword;
-
+  String avatar;
   String designation;
   String bio;
   int mobileNo;
@@ -14,19 +14,19 @@ class myUser {
   String department;
   List posts;
 
-  myUser({
-    required this.name,
-    required this.email,
-    required this.uid,
-    required this.password,
-    required this.confirmPassword,
-    required this.designation,
-    required this.bio,
-    required this.mobileNo,
-    required this.dob,
-    required this.department,
-    required this.posts,
-  });
+  myUser(
+      {required this.name,
+      required this.email,
+      required this.uid,
+      required this.password,
+      required this.confirmPassword,
+      required this.designation,
+      required this.bio,
+      required this.mobileNo,
+      required this.dob,
+      required this.department,
+      required this.posts,
+      required this.avatar});
   Map<String, dynamic> toJson() => {
         "name": name,
         "email": email,
@@ -39,6 +39,7 @@ class myUser {
         "dob": dob,
         "department": department,
         "posts": posts,
+        "avatar": avatar,
       };
 
   static myUser fromSnap(DocumentSnapshot snap) {
@@ -55,6 +56,7 @@ class myUser {
       dob: snapshot['dob'],
       mobileNo: snapshot['mobileNo'],
       posts: snapshot['posts'],
+      avatar: snapshot['avatar'],
     );
   }
 }

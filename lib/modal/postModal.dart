@@ -11,19 +11,20 @@ class EngagePostModal {
   String profilePic;
   String designation;
   String postTitle;
+  FieldValue timestamp;
 
-  EngagePostModal({
-    required this.name,
-    required this.uid,
-    required this.id,
-    required this.likes,
-    required this.commentsCount,
-    required this.description,
-    required this.post,
-    required this.designation,
-    required this.profilePic,
-    required this.postTitle,
-  });
+  EngagePostModal(
+      {required this.name,
+      required this.uid,
+      required this.id,
+      required this.likes,
+      required this.commentsCount,
+      required this.description,
+      required this.post,
+      required this.designation,
+      required this.profilePic,
+      required this.postTitle,
+      required this.timestamp});
   Map<String, dynamic> toJson() => {
         "username": name,
         "uid": uid,
@@ -35,6 +36,7 @@ class EngagePostModal {
         "designation": designation,
         "profilePic": profilePic,
         "postTitle": postTitle,
+        "timestamp": timestamp,
       };
 
   static EngagePostModal fromSnap(DocumentSnapshot snap) {
@@ -50,6 +52,7 @@ class EngagePostModal {
       designation: snapshot['designation'],
       profilePic: snapshot['profilePic'],
       postTitle: snapshot['postTitle'],
+      timestamp: snapshot['timestamp'],
     );
   }
 }

@@ -25,15 +25,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Engage 2.0',
+      title: 'Engage SoftTunners',
       theme: engageTheme,
+      // getPages: engageRoutes(),
       routes: {
         EngageRoutes.redirect: (context) => const SplashScreen(),
         EngageRoutes.home: (context) => HomeScreen(),
         EngageRoutes.login: (context) => const EngageLogin(),
         EngageRoutes.register: (context) => const EngageRegister(),
         EngageRoutes.userEdit: (context) => const EngageProfileEdit(),
-        EngageRoutes.userProfile: (context) => EngageProfileOfUser(),
       },
       initialRoute: '/',
     );

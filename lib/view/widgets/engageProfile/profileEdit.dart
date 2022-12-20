@@ -33,7 +33,7 @@ class _EngageProfileEditState extends State<EngageProfileEdit> {
     setState(() {
       if (pickedFile != null) {
         profileUpdateController.photo = File(pickedFile.path);
-        profileUpdateController.uploadAvatar();
+        // profileUpdateController.uploadAvatar();
       } else {
         print('No image selected.');
       }
