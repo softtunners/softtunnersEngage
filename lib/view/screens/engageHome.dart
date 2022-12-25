@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:engage/controller/post_controller.dart';
 import 'package:engage/controller/postlist_controller.dart';
 import 'package:engage/modal/postModal.dart';
-import 'package:engage/view/widgets/GlobalWidgets/profileListType.dart';
+import 'package:engage/view/screens/engagePostView.dart';
 import 'package:engage/view/widgets/engageHome/postNormal.dart';
 import 'package:engage/view/widgets/engageHome/stories.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// This page display the posts uploded by the users in realtime events, activities and feeds will be shown here.
 class EngageHome extends StatefulWidget {
-  EngageHome({super.key});
+  const EngageHome({super.key});
 
   @override
   State<EngageHome> createState() => _EngageHomeState();
@@ -25,14 +23,11 @@ class _EngageHomeState extends State<EngageHome> {
 
   Future<List<EngagePostModal>>? engagePostModal;
   List<EngagePostModal>? retriveEngagePosts;
-
-  var _numberToMonth = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'};
+// This _numberToMonth is used to convert TimeStamp into Date e.g(18, Aug)
+  final _numberToMonth = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'};
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  Set get set => {};
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +40,11 @@ class _EngageHomeState extends State<EngageHome> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              EngageStories(),
+              // This is the Custom Widget for Uploading Stories but at this moment it is just a static component and user cannot do anything dynamic with this.
+              const EngageStories(),
+              // This Contain Display's the posts uploded by the users
               Container(
-                color: Color.fromARGB(255, 235, 235, 235),
+                color: const Color.fromARGB(255, 235, 235, 235),
                 child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: snapshot.data!.docs.map<Widget>((document) {
@@ -59,11 +56,22 @@ class _EngageHomeState extends State<EngageHome> {
                         name: document['username'],
                         designation: document['designation'],
                         description: document['description'],
-                        timestamp: ' Posted On ${date.day} ${_numberToMonth[date.month]}',
+                        timestamp: 'Posted On ${date.day} ${_numberToMonth[date.month]}',
                         comment: document['commentsCount'],
                         likes: document['likes'].length,
+                        id: document.id,
                         onPressed: () {
                           engagePostList.likedPost(document.id);
+                        },
+                        onTap: () {
+                          Get.to(
+                            EngageFullPostView(
+                              set,
+                              postId: document['id'],
+                            ),
+                            transition: Transition.rightToLeft,
+                            duration: const Duration(milliseconds: 500),
+                          );
                         },
                       );
                     }).toList()),

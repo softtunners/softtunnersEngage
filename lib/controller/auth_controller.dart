@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage/modal/userModal.dart';
 import 'package:engage/view/screens/auth/engageLogin.dart';
 import 'package:engage/view/screens/auth/engageRegister.dart';
+import 'package:engage/view/screens/auth/updateProfile.dart';
 import 'package:engage/view/screens/engageHome.dart';
 import 'package:engage/view/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,7 +41,7 @@ class AuthController extends GetxController {
       if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty) {
         UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
-        final avatarImg = 'https://firebasestorage.googleapis.com/v0/b/engage-29a68.appspot.com/o/Assets%2FImages%2Fuser.png?alt=media&token=798133d5-f41d-4ee8-8c16-06573a9e9a4d';
+        const avatarImg = 'https://firebasestorage.googleapis.com/v0/b/engage-29a68.appspot.com/o/Assets%2FImages%2Fuser.png?alt=media&token=798133d5-f41d-4ee8-8c16-06573a9e9a4d';
 
         myUser engageUser = myUser(
             name: username,
@@ -57,6 +58,7 @@ class AuthController extends GetxController {
             avatar: avatarImg);
 
         await FirebaseFirestore.instance.collection("engageUsers").doc(credential.user!.uid).set(engageUser.toJson());
+
         Get.snackbar("Registered Successfully", "You have been registered successfully", snackPosition: SnackPosition.TOP, backgroundColor: Color(0xffffffff));
       } else {
         Get.snackbar("Error Creating an Account", "Please Enter all the required fields", snackPosition: SnackPosition.TOP, backgroundColor: Color(0xffffffff));

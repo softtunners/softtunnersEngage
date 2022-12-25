@@ -35,7 +35,7 @@ class _EngageUploadPostSecState extends State<EngageUploadPostSec> {
   }
 
   uploadEngagePost() {
-    uploadPostController.uploadPost(_postDescription.text, uploadPostController.photo!, _postDescription.text);
+    uploadPostController.uploadPost(_postDescription.text, uploadPostController.photo!);
   }
 
   pickedImage() {
@@ -71,13 +71,13 @@ class _EngageUploadPostSecState extends State<EngageUploadPostSec> {
           Container(
             child: Column(
               children: [
-                profileListType(),
+                EngageUserWidget(),
                 TextFormField(
                   controller: _postDescription,
                   maxLines: null,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsetsDirectional.fromSTEB(15, 10, 10, 15),
-                    hintText: "What's on your min today, Ashwin Sevak",
+                    hintText: "What's on your mind today, Idealaker",
                   ),
                   style: GoogleFonts.poppins(textStyle: Get.textTheme.subtitle2),
                 ),
@@ -162,7 +162,7 @@ class _EngageUploadPostSecState extends State<EngageUploadPostSec> {
               uploadingPost
                   ? const CircularProgressIndicator()
                   : Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
+                      padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {

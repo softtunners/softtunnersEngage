@@ -1,26 +1,20 @@
-import 'dart:io';
+import 'package:engage/view/widgets/GlobalWidgets/engageTile.dart';
 
-import 'package:engage/controller/post_controller.dart';
-import 'package:engage/view/utils/routes.dart';
-import 'package:engage/view/widgets/GlobalWidgets/profileListType.dart';
-import 'package:engage/view/widgets/engageProfile/profileEdit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../GlobalWidgets/textInput.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserProfile extends StatefulWidget {
   final String name;
   final String designation;
   final String bio;
-  final int mobileNo;
+  final String mobileNo;
   final String email;
   final String dob;
   final String joinedDate;
   final String department;
   final String profile;
+  final Widget postData;
 
   const UserProfile({
     super.key,
@@ -33,6 +27,7 @@ class UserProfile extends StatefulWidget {
     required this.joinedDate,
     required this.department,
     required this.profile,
+    required this.postData,
   });
 
   @override
@@ -40,37 +35,6 @@ class UserProfile extends StatefulWidget {
 }
 
 class UserProfileState extends State<UserProfile> {
-  TextEditingController _addPostTitle = new TextEditingController();
-  TextEditingController _postDescription = new TextEditingController();
-  UploadPostController uploadPostController = Get.put(UploadPostController());
-
-  Future imgFromGallery() async {
-    final pickedFile = await uploadPostController.picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        uploadPostController.photo = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _addPostTitle = new TextEditingController();
-    _postDescription = new TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _addPostTitle.dispose();
-    _postDescription.dispose();
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -78,220 +42,108 @@ class UserProfileState extends State<UserProfile> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            height: 130,
-            width: MediaQuery.of(context).size.width,
+            height: 230,
+            width: Get.size.width,
             color: Colors.white,
             child: Stack(
               children: [
                 Container(
-                  height: 80,
+                  height: 100,
                   color: Get.theme.colorScheme.primary,
                 ),
                 Positioned(
                   bottom: 0,
                   left: 15,
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
+                      // The Circle Avatar contain the profile picture of the user
+                      CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 60,
                         child: CircleAvatar(
-                          radius: 55,
+                          radius: 57,
                           backgroundColor: Colors.white,
-                          backgroundImage: AssetImage('assets/images/user.png'),
+                          backgroundImage: NetworkImage(widget.profile),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Ashwin Sevak', style: Get.theme.textTheme.subtitle1),
-                          const SizedBox(height: 3),
-                          Text('Head of Mobile & Products', style: Get.theme.textTheme.bodyText1),
-                          const SizedBox(height: 5),
-                        ],
-                      )
+                      // The below code conatins the args of Username & Designation
+                      const SizedBox(height: 10),
+                      Text(widget.name, style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.headline4)),
+                      const SizedBox(height: 3),
+                      Text(widget.designation, style: GoogleFonts.poppins(textStyle: const TextStyle(color: Color.fromARGB(183, 0, 0, 0), fontSize: 15, fontWeight: FontWeight.w400))),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 ),
               ],
             ),
           ),
+          // This Container holds user's personal details such as Bio, Mobile, Email, DOB, Joined Date & Department that need to be filled by the user once they logged in else the data will be shown as blank
           Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(15),
-            decoration: BoxDecoration(color: Color.fromARGB(24, 214, 214, 214), borderRadius: BorderRadius.circular(10)),
+            margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+            // padding: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(color: Color.fromARGB(255, 255, 255, 255), border: Border(top: BorderSide(width: 1, color: Color.fromARGB(33, 158, 158, 158)))),
             child: Column(
               children: [
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      'Employee Details',
-                      style: Get.theme.textTheme.bodyText1,
-                    ),
+                    Text('Idealaker Detail', style: GoogleFonts.poppins(textStyle: const TextStyle(color: Color.fromARGB(183, 0, 0, 0), fontSize: 20, fontWeight: FontWeight.w400))),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
-                      child: Text(
-                        widget.bio,
-                        style: Get.theme.textTheme.bodyText1,
-                      ),
+                      // This Text Widget Contains Bio
+                      child: Text(widget.bio, style: GoogleFonts.poppins(textStyle: const TextStyle(color: Color.fromARGB(183, 0, 0, 0), fontSize: 13, fontWeight: FontWeight.w400))),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.phone,
-                      color: Get.theme.colorScheme.primary,
-                      size: 14,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Mobile No : {$widget.mobileNo}',
-                      style: Get.theme.textTheme.bodyText2,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.email,
-                      color: Get.theme.colorScheme.primary,
-                      size: 14,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Email Id :' + widget.email,
-                      style: Get.theme.textTheme.bodyText2,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.cake,
-                      color: Get.theme.colorScheme.primary,
-                      size: 14,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Date of Birth :' + widget.dob,
-                      style: Get.theme.textTheme.bodyText2,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.local_activity,
-                      color: Get.theme.colorScheme.primary,
-                      size: 14,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Joined Idealake on :' + widget.joinedDate,
-                      style: Get.theme.textTheme.bodyText2,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.group,
-                      color: Get.theme.colorScheme.primary,
-                      size: 14,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Department :' + widget.department,
-                      style: Get.theme.textTheme.bodyText2,
-                    ),
-                  ],
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: const [BoxShadow(offset: Offset.zero, blurRadius: 10.0, spreadRadius: 10.0, color: Color.fromARGB(19, 199, 199, 199))],
+                  ),
+                  child: Column(
+                    children: [
+                      EngageTile(title: 'Mobile No :', subtitle: widget.mobileNo, icon: Icons.phone_rounded),
+                      EngageTile(title: 'Email Id :', subtitle: widget.email, icon: Icons.email_rounded),
+                      EngageTile(title: 'Date Of Birth :', subtitle: widget.dob, icon: Icons.cake_rounded),
+                      EngageTile(title: 'Joined Idealake On :', subtitle: widget.joinedDate, icon: Icons.join_full_rounded),
+                      EngageTile(title: 'Department', subtitle: widget.department, icon: Icons.group),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
+          // Users Post Section Starts from here
           Container(
-            padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                    top: BorderSide(
-                  color: Color.fromARGB(255, 230, 230, 230),
-                  width: 1,
-                ))),
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(color: Colors.white, border: Border(top: BorderSide(width: 1, color: Color.fromARGB(33, 158, 158, 158)))),
             width: Get.size.width,
-            height: MediaQuery.of(context).size.height,
-            child: GridView.count(
-              crossAxisCount: 3,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  'assets/images/post3.jpeg',
-                  width: Get.size.width,
-                  fit: BoxFit.cover,
-                )
+                Text("${widget.name}'s Posts", style: GoogleFonts.poppins(textStyle: const TextStyle(color: Color.fromARGB(183, 0, 0, 0), fontSize: 20, fontWeight: FontWeight.w400))),
+                const SizedBox(height: 10),
+                Text("idealakers love sharing happy moments, Check ${widget.name}'s updated and recent posts",
+                    style: GoogleFonts.poppins(textStyle: const TextStyle(color: Color.fromARGB(183, 0, 0, 0), fontSize: 13, fontWeight: FontWeight.w400))),
               ],
             ),
-          )
+          ),
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+            height: Get.size.shortestSide,
+            child: widget.postData,
+          ),
         ],
       ),
     );

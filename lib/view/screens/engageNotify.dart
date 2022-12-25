@@ -3,6 +3,7 @@ import 'package:engage/controller/users_controllers.dart';
 import 'package:engage/view/screens/engageUserProfile.dart';
 import 'package:engage/view/widgets/GlobalWidgets/profileListType.dart';
 import 'package:engage/view/widgets/GlobalWidgets/textInput.dart';
+import 'package:engage/view/widgets/engageNotify/engageNotificationWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,8 @@ class _EngageNotifyState extends State<EngageNotify> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Notify');
+    return const EngageNotifications(
+      count: '20',
+    );
   }
 }

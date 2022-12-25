@@ -36,7 +36,7 @@ class UploadPostController extends GetxController {
   //   }
   // }
 
-  uploadPost(String description, File postImage, String postTitle) async {
+  uploadPost(String description, File postImage) async {
     try {
       final filename = photo;
       final destination = 'engagePost/$filename';
@@ -62,7 +62,7 @@ class UploadPostController extends GetxController {
         post: imageUrl,
         designation: "Head of Mobile & Products",
         profilePic: (userDoc.data()! as Map<String, dynamic>)['avatar'],
-        postTitle: postTitle,
+        postTitle: description,
         timestamp: FieldValue.serverTimestamp(),
       );
 
@@ -72,7 +72,4 @@ class UploadPostController extends GetxController {
       Get.snackbar("Error Uploading Post", e.toString());
     }
   }
-
-
-
 }

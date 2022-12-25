@@ -14,7 +14,7 @@ import 'package:uuid/uuid.dart';
 class ProfileUpdateController extends GetxController {
   static ProfileUpdateController instance = Get.find();
 
-    var uuid = Uuid();
+  var uuid = Uuid();
 
   FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -30,7 +30,6 @@ class ProfileUpdateController extends GetxController {
       UploadTask uploadTask = ref.putFile(photo!);
       TaskSnapshot snapshot = await uploadTask;
       String avatarUrl = await snapshot.ref.getDownloadURL();
-      
 
       var engageUsers = UserProfileMoal(
         designation: designation,
@@ -49,12 +48,10 @@ class ProfileUpdateController extends GetxController {
     }
   }
 
-    uploadPostId(){
-    try{
+  uploadPostId() {
+    try {
       String id = uuid.v1();
       final postCollection = FirebaseFirestore.instance.collection('engagePost').doc(id).get();
-    }catch(e){}
+    } catch (e) {}
   }
-
-
 }

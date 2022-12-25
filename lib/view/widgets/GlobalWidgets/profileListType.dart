@@ -1,65 +1,101 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage/controller/profile_controller.dart';
-import 'package:engage/modal/profileModal.dart';
-import 'package:engage/view/screens/engageUserProfile.dart';
-import 'package:engage/view/utils/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// This is the global level widget thaht is useful for showing current user listtype widget
 class EngageUserWidget extends StatelessWidget {
+  EngageUserWidget({
+    super.key,
+  });
+
+  static String? get uid => FirebaseAuth.instance.currentUser!.uid;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('engageUsers').doc(uid).snapshots(),
+        builder: (context, snapshot) {
+          return InkWell(
+            splashColor: Get.theme.colorScheme.background,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 20,
+                    backgroundImage: NetworkImage(snapshot.data!['avatar']),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        snapshot.data!['name'],
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.poppins(
+                          textStyle: Get.theme.textTheme.subtitle1,
+                        ),
+                      ),
+                      Text(
+                        snapshot.data!['designation'],
+                        style: GoogleFonts.poppins(
+                          textStyle: Get.theme.textTheme.subtitle2,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}
+
+// This is the global level widget which is used for showing registered users in Idealakers Page
+class EngageIdeaUsers extends StatelessWidget {
+  final String avatar;
   final String name;
   final String designation;
-  final String avatar;
-  final dynamic data;
+  final void Function()? onTap;
 
-  EngageUserWidget({super.key, required this.name, required this.designation, required this.avatar, this.data});
-
-  ProfileUpdateController profileUpdateController = Get.put(ProfileUpdateController());
+  const EngageIdeaUsers({
+    super.key,
+    required this.avatar,
+    required this.name,
+    required this.designation,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        print('this is page');
-        Get.to(() => '');
-        // profileUpdateController.showUser();
-      },
+      highlightColor: Get.theme.colorScheme.background,
+      onTap: onTap,
       splashColor: Get.theme.colorScheme.background,
       child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Color.fromARGB(121, 236, 236, 236), offset: Offset.zero, spreadRadius: 4.0, blurRadius: 4.0, blurStyle: BlurStyle.normal)],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+        decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(width: 1, color: Get.theme.colorScheme.background))),
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 20,
-              backgroundImage: NetworkImage(avatar),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
+            CircleAvatar(backgroundColor: Colors.white, radius: 20, backgroundImage: NetworkImage(avatar)),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name,
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.poppins(
-                    textStyle: Get.theme.textTheme.subtitle1,
-                  ),
-                ),
-                Text(
-                  designation,
-                  style: GoogleFonts.poppins(
-                    textStyle: Get.theme.textTheme.subtitle2,
-                  ),
-                )
+                Text(name, textAlign: TextAlign.left, style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.subtitle1)),
+                Text(designation, style: GoogleFonts.poppins(textStyle: Get.theme.textTheme.subtitle2))
               ],
             )
           ],
@@ -67,43 +103,4 @@ class EngageUserWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-profileListType() {
-  return GestureDetector(
-    child: Container(
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.white,
-            backgroundImage: AssetImage("assets/images/user.png"),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Ashwin Sevak",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.poppins(
-                  textStyle: Get.theme.textTheme.subtitle1,
-                ),
-              ),
-              Text(
-                "Head of Mobile & Products",
-                style: GoogleFonts.poppins(
-                  textStyle: Get.theme.textTheme.subtitle2,
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    ),
-  );
 }

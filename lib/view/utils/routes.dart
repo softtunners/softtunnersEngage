@@ -25,6 +25,12 @@ class EngageRoutes {
 
   static List<GetPage> routes = [
     GetPage(
+      name: redirect,
+      page: () => EngageHome(),
+      transition: Transition.circularReveal,
+      transitionDuration: Duration(milliseconds: 500),
+    ),
+    GetPage(
       name: home,
       page: () => EngageHome(),
       transition: Transition.circularReveal,
@@ -57,12 +63,6 @@ class EngageRoutes {
     GetPage(
       name: userProfile,
       page: () => EngageProfile(),
-      transition: Transition.circularReveal,
-      transitionDuration: Duration(milliseconds: 500),
-    ),
-    GetPage(
-      name: redirect,
-      page: () => EngageHome(),
       transition: Transition.circularReveal,
       transitionDuration: Duration(milliseconds: 500),
     ),

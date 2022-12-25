@@ -44,6 +44,11 @@ TextTheme _engageThemeTextTheme(TextTheme base) => base.copyWith(
         fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
+      headline4: base.headline4!.copyWith(
+        fontSize: 22,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
       subtitle1: base.subtitle1!.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w500,
@@ -70,7 +75,7 @@ ElevatedButtonThemeData _elevatedButtonTheme(ElevatedButtonThemeData base) => El
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(10.0),
         minimumSize: const Size.fromHeight(50),
-        backgroundColor: const Color(0xffFFBD3B),
+        backgroundColor: const Color(0xff0B4E82),
       ),
     );
 

@@ -1,23 +1,20 @@
 import 'dart:io';
 
-import 'package:engage/controller/auth_controller.dart';
 import 'package:engage/controller/profile_controller.dart';
-import 'package:engage/view/screens/auth/engageLogin.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:engage/view/screens/engageHome.dart';
+import 'package:engage/view/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class EngageProfileEdit extends StatefulWidget {
-  const EngageProfileEdit({super.key});
+class EngageFirstUpdate extends StatefulWidget {
+  const EngageFirstUpdate({super.key});
 
   @override
-  State<EngageProfileEdit> createState() => _EngageProfileEditState();
+  State<EngageFirstUpdate> createState() => _EngageFirstUpdateState();
 }
 
-class _EngageProfileEditState extends State<EngageProfileEdit> {
+class _EngageFirstUpdateState extends State<EngageFirstUpdate> {
   TextEditingController _username = TextEditingController();
   TextEditingController _designation = TextEditingController();
   TextEditingController _bio = TextEditingController();
@@ -92,7 +89,7 @@ class _EngageProfileEditState extends State<EngageProfileEdit> {
                     Text('Edit Your Profile,', style: Get.theme.textTheme.headline2),
                     const SizedBox(height: 20),
                     Text(
-                      'Idealakers can edit and delete thier personal details from here.',
+                      'Kindly update your profile to proceed ahead.',
                       textAlign: TextAlign.start,
                       style: Get.theme.textTheme.subtitle2,
                     ),
@@ -231,6 +228,7 @@ class _EngageProfileEditState extends State<EngageProfileEdit> {
                     ElevatedButton(
                       onPressed: () {
                         updatePost();
+                        Get.to(() => HomeScreen());
                       },
                       style: TextButton.styleFrom(padding: const EdgeInsets.all(15.0), minimumSize: const Size.fromHeight(50), backgroundColor: const Color(0xFF0B4E82)),
                       child: const Text('Register'),

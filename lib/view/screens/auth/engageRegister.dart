@@ -1,9 +1,6 @@
 import 'package:engage/controller/auth_controller.dart';
 import 'package:engage/view/screens/auth/engageLogin.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 class EngageRegister extends StatefulWidget {
@@ -23,7 +20,6 @@ class _EngageRegisterState extends State<EngageRegister> {
   final _formKey = GlobalKey<FormState>();
 
   moveToHome() {
-    // if (_formKey.currentState!.validate()) {}
     AuthController.instance.registerUser(_username.text, _emailController.text, _passwordController.text, _confirmPasswordController.text);
   }
 
@@ -53,8 +49,8 @@ class _EngageRegisterState extends State<EngageRegister> {
         child: Wrap(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              width: Get.size.width,
+              height: Get.size.height,
               color: Get.theme.colorScheme.primary,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -68,9 +64,9 @@ class _EngageRegisterState extends State<EngageRegister> {
                       ),
                     ),
                     child: Container(
-                      padding: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height - 160,
+                      padding: const EdgeInsets.all(20),
+                      width: Get.size.width,
+                      height: Get.size.height - 160,
                       child: Form(
                         key: _formKey,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
