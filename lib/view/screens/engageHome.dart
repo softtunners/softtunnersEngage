@@ -65,6 +65,7 @@ class _EngageHomeState extends State<EngageHome> {
                     // This Contain Display's the posts uploded by the users
                     Container(
                       color: const Color.fromARGB(255, 235, 235, 235),
+                      
                       child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: snapshot.data!.docs.map<Widget>((document) {

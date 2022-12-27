@@ -152,7 +152,7 @@ class ProfileView extends StatelessWidget {
           bottom: 20,
           child: TextButton.icon(
             // when cliecked user will be redirected to the edit page
-            onPressed: () => Get.to(() => EngageProfileEdit(), transition: Transition.circularReveal, duration: Duration(seconds: 1)),
+            onPressed: () => Get.to(() => const EngageProfileEdit(), transition: Transition.circularReveal, duration: Duration(seconds: 1)),
             icon: const Icon(
               Icons.edit,
               size: 16,
