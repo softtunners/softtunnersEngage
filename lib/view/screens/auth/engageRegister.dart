@@ -1,5 +1,6 @@
 import 'package:engage/controller/auth_controller.dart';
 import 'package:engage/view/screens/auth/engageLogin.dart';
+import 'package:engage/view/screens/auth/updateProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         EngageRoutes.home: (context) => HomeScreen(),
         EngageRoutes.login: (context) => const EngageLogin(),
         EngageRoutes.register: (context) => const EngageRegister(),
-        // EngageRoutes.userEdit: (context) => const EngageProfileEdit(),
       },
       initialRoute: '/',
     );

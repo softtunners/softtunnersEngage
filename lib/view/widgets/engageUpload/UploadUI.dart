@@ -86,27 +86,29 @@ class _EngageUploadPostSecState extends State<EngageUploadPostSec> {
                         height: 320,
                         width: Get.size.width,
                         color: Get.theme.colorScheme.background,
-                        child: Stack(children: [
-                          Image.file(
-                            uploadPostController.photo!,
-                            fit: BoxFit.contain,
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.close,
-                                size: 25,
-                                color: Colors.grey,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  uploadPostController.photo = null;
-                                });
-                              },
-                            ),
-                          ),
-                        ]),
+                        child: uploadingPost
+                            ? Center(child: CircularProgressIndicator())
+                            : Stack(children: [
+                                Image.file(
+                                  uploadPostController.photo!,
+                                  fit: BoxFit.contain,
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 25,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        uploadPostController.photo = null;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ]),
                       )
                     : Container(),
               ],
@@ -159,23 +161,23 @@ class _EngageUploadPostSecState extends State<EngageUploadPostSec> {
                   ),
                 ],
               ),
-              uploadingPost
-                  ? const CircularProgressIndicator()
-                  : Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            uploadingPost = true;
-                          });
-                          uploadEngagePost();
-                          setState(() {
-                            uploadingPost = false;
-                          });
-                        },
-                        child: Text("Upload"),
-                      ),
-                    )
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    uploadEngagePost();
+                    setState(() {
+                      uploadingPost = !uploadingPost;
+                    });
+                    Future.delayed(Duration(seconds: 4), () {
+                      setState(() {
+                        uploadingPost = false;
+                      });
+                    });
+                  },
+                  child: Text("Upload"),
+                ),
+              )
             ],
           )),
         ],

@@ -60,7 +60,7 @@ class UploadPostController extends GetxController {
         commentsCount: 0,
         description: description,
         post: imageUrl,
-        designation: "Head of Mobile & Products",
+        designation: (userDoc.data()! as Map<String, dynamic>)['designation'],
         profilePic: (userDoc.data()! as Map<String, dynamic>)['avatar'],
         postTitle: description,
         timestamp: FieldValue.serverTimestamp(),

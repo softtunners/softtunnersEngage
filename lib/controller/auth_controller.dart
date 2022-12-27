@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage/modal/userModal.dart';
 import 'package:engage/view/screens/auth/engageLogin.dart';
-import 'package:engage/view/screens/auth/engageRegister.dart';
 import 'package:engage/view/screens/auth/updateProfile.dart';
-import 'package:engage/view/screens/engageHome.dart';
 import 'package:engage/view/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,6 +53,7 @@ class AuthController extends GetxController {
             mobileNo: 0,
             posts: [],
             avatar: avatarImg);
+        Get.off(() => const EngageFirstUpdate());
 
         await FirebaseFirestore.instance.collection("engageUsers").doc(credential.user!.uid).set(engageUser.toJson());
 
